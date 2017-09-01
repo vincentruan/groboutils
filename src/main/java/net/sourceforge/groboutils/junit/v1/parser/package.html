@@ -1,0 +1,30 @@
+<HTML>
+<HEAD><TITLE>net.sourceforge.groboutils.junit.v1.parser</TITLE></HEAD>
+<BODY>
+The GroboUtils JUnit Extention: classes to help in the creation and
+execution of JUnit tests.
+<H3>Overview</H3>
+
+<P>
+    The <tt>TestClassParser</tt> combined with the <tt>TestClassCreator</tt>
+    contains much of the logic that the JUnit class <tt>TestSuite</tt> contains.
+    However, the parser is designed with extensibility in mind. Its sole purpose
+    is to parse out test methods and create test instances.
+</P>
+
+<P>
+    The <tt>TestClassParser</tt> knows how to extract the test methods from a
+    test class, while <tt>TestClassCreator</tt> knows how to create test instances
+    from the parsed test class.
+</P>
+
+<P>
+    In order to support various means of instantiating test instances from a
+    test class, the <tt>TestClassCreator</tt> depends upon instances of
+    <tt>ITestCreator</tt> to perform the actual creation of the tests. The
+    validation and TestSuite compilation is performed by the
+    <tt>TestClassCreator</tt>.
+</P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,89 @@
+<HTML>
+<HEAD><TITLE>net.sourceforge.groboutils.testing.junit.v1</TITLE></HEAD>
+<BODY>
+Classes to aid in testing interfaces, abstract classes, and base classes for
+"contract tests".
+
+<H3>Interface Testing</H3>
+
+<P>
+    The Sun Java Tutorial indicates that classes which implement an interface
+    "[sign] a contract" <a
+        href="http://java.sun.com/docs/books/tutorial/java/interpack/usinginterface.html"
+>[1]</a>. In some cases the contract has meta-data beyond the API declared in
+    the interface source-code, such as "must never return <tt>null</tt>", usually
+    declared in the JavaDoc. Forcing each implemented class to test this on its own
+    is both poor coding practice and unenforcable. Instead, what we need is a way
+    to write test cases for the interface, and each implemented class can execute an
+    instance of that class against the tests. This framework eases this practice by
+    extending the JUnit framework.
+</P>
+<P>
+    The interface creator creates a TestCase which extends <tt>InterfaceTest</tt>,
+    commonly through <tt>InterfaceTestCase</tt>. The class to test need not be
+    only an interface: in can be any kind of class.
+</P>
+<P>
+    Implemented classes need to use something like the following to test through an
+    interface test:
+<PRE>
+import net.sourceforge.groboutils.junit.v1.iftc.*;
+import junit.framework.*;
+
+public MyClassTest extends TestCase {
+    public MyClassTest( String name ) {
+        super( name );
+    }
+
+    public static Test suite() {
+        TestSuite suite = new TestSuite( MyClassTest.class )
+        InterfaceTestSuite its = MyInterfaceTest.suite();
+        its.addFactory( new CxFactory( "A" ) {
+            public Object createImplObject() {
+                return new MyClass( "string" );
+            }
+        } );
+        its.addFactory( new CxFactory( "B" ) {
+            public Object createImplObject() {
+                return new MyClass( null );
+            }
+        } );
+        suite.addTest( its );
+        
+        return suite;
+    }
+    ...
+}
+</PRE>
+The interface test would then look something like:
+<PRE>
+import net.sourceforge.groboutils.junit.v1.iftc.*;
+import junit.framework.*;
+
+public MyInterfaceTest extends InterfaceTestCase {
+    public MyInterfaceTest( String name, ImplFactory f ) {
+        super( name, MyInterface.class, f );
+    }
+
+    public static InterfaceTestSuite suite() {
+        InterfaceTestSuite suite = new InterfaceTestSuite(
+            MyInterfaceTest.class );
+        
+        return suite;
+    }
+    
+    ...
+}
+</PRE>
+</P>
+
+
+<H3>References</H3>
+
+<OL>
+    <LI>Various. <i>The Java Tutorial</i>. Online at
+        http://java.sun.com/docs/books/tutorial/java/interpack/usinginterface.html .
+</OL>
+
+</BODY>
+</HTML>

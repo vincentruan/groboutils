@@ -1,0 +1,60 @@
+<HTML>
+<HEAD><TITLE>net.sourceforge.groboutils.junit.v1</TITLE></HEAD>
+<BODY>
+The GroboUtils JUnit Extention: classes to help in the creation and
+execution of JUnit tests.
+<H3>Overview</H3>
+
+<P>
+    This package has been designed to follow the JUnit extention patterns (see
+    my article in the documentation). Instead of creating direct TestCase
+    subclasses to add functionality to actual TestCases, test extentions have been
+    refactored for ease-of-use.
+</P>
+
+<H3>Utility Testing Classes</H3>
+
+<P>
+    The classes listed here follow the JUnit Utility Functionality pattern. They
+    give more testing functionality to unit tests through a separate instance,
+    rather than requiring the tests to subclass to gain the functionality.
+</P>
+
+
+<H4>AssertTestFactory &amp; IntegrationTestCase</H4>
+
+<P>
+    There are two kinds of "validations" a test can generate: soft and hard. A
+    hard validation must be true - any inconsistency will result in the whole test
+    to fail. A soft validation will still cause a test error, but the test may
+    continue. Soft validations are less useful than hard validations for unit
+    tests, since the point of unit tests is to make sure a small part of an
+    application has the absolute correct behavior. However, for integration tests,
+    this becomes less a necessity. An integration test may take great efforts
+    setting up a scenario, then runs a battery of validations against the setup.
+    A hard validation in these situations does not expose all the issues which
+    may lie in the source.
+</P>
+<P>
+    Hard validations are supported in JUnit with the <tt>Assert</tt> class. The
+    <tt>IntegrationTestCase</tt> class in this framework allows for better support
+    of soft validations by executing the soft asserts as a seperate test. This
+    allows for proper reporting of the failure without stopping the flow of the
+    test.
+</P>
+
+<H4>MultiThreadedTestRunner</H4>
+
+<P>
+    It can be very difficult to test code which requires inter-thread communication,
+    or which may encounter synchronization problems. This class allows a TestCase
+    to create runner inner classes to perform a bit of functionality for a thread,
+    then pass those instances to a MultiThreadedTestRunner instance to allow them
+    to run in parallel. In situations where a dead-lock may occur, a timer is
+    provided which will interrupt (not kill) the running threads and report a
+    failure.
+</P>
+
+
+</BODY>
+</HTML>
